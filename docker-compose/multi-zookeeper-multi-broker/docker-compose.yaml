@@ -1,0 +1,131 @@
+version: '3.8'
+
+services:
+  zookeeper-1:
+    image: confluentinc/cp-zookeeper:7.3.0
+    container_name: zookeeper-1
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181  # Port for client connections
+      ZOOKEEPER_TICK_TIME: 2000    # Basic time unit in milliseconds
+      ZOOKEEPER_INIT_LIMIT: 5      # Time limit for followers to connect to leader
+      ZOOKEEPER_SYNC_LIMIT: 2      # Time limit for followers to sync with leader
+      # List of all ZooKeeper servers in the ensemble
+      ZOOKEEPER_SERVERS: zookeeper-1:2888:3888;zookeeper-2:2888:3888;zookeeper-3:2888:3888
+                                   # 2888: Used for peer communication between ZooKeeper nodes
+                                   # 3888: Used for leader election
+                                   # These ports are used for internal ZooKeeper ensemble communication
+      ZOOKEEPER_MYID: 1            # Unique identifier for this node
+      ZOOKEEPER_SERVER_ID: 1       # Server ID for this node
+    ports:
+      - "2181:2181"  # Client port. (Host:Container - Same port number)
+                     # The container's port 2181 is mapped to host's port 2181
+                     # You access it using localhost:2181
+      - "2888:2888"  # Peer communication port. (Host:Container - Same port number)
+      - "3888:3888"  # Leader election port. (Host:Container - Same port number)
+    networks:
+      - kafka-network
+
+  zookeeper-2:
+    image: confluentinc/cp-zookeeper:7.3.0
+    container_name: zookeeper-2
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2182  # Different client port for second node
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_SERVERS: zookeeper-1:2888:3888;zookeeper-2:2888:3888;zookeeper-3:2888:3888
+      ZOOKEEPER_MYID: 2
+      ZOOKEEPER_SERVER_ID: 2
+    ports:
+      - "2182:2182"  # Client port. (Host:Container - Same port number)
+      - "2889:2888"  # Peer communication port. (Host:Container - Different port number)
+                     # The container's port 2888 is mapped to host's port 2889
+                     # You access it using localhost:2889
+                     # This is done to avoid port conflicts on the host machine
+      - "3889:3888"  # Leader election port. (Host:Container - Different port number)
+    networks:
+      - kafka-network
+
+  zookeeper-3:
+    image: confluentinc/cp-zookeeper:7.3.0
+    container_name: zookeeper-3
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2183
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_SERVERS: zookeeper-1:2888:3888;zookeeper-2:2888:3888;zookeeper-3:2888:3888
+      ZOOKEEPER_MYID: 3
+      ZOOKEEPER_SERVER_ID: 3
+    ports:
+      - "2183:2183"
+      - "2890:2888"
+      - "3890:3888"
+    networks:
+      - kafka-network
+
+  kafka-1:
+    image: confluentinc/cp-kafka:7.3.0
+    container_name: kafka-1
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+      - zookeeper-3
+    ports:
+      - "9092:9092"  # External access port
+    environment:
+      KAFKA_BROKER_ID: 1  # Unique identifier for this broker
+      # Connect to all ZooKeeper nodes with custom znode path
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181,zookeeper-2:2182,zookeeper-3:2183/kafka
+      # Define listeners for internal and external communication
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-1:29092,PLAINTEXT_HOST://localhost:9092
+      # Security protocol mapping for listeners
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT  # Listener for inter-broker communication
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1    # Replication factor for internal topics
+    networks:
+      - kafka-network
+
+  kafka-2:
+    image: confluentinc/cp-kafka:7.3.0
+    container_name: kafka-2
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+      - zookeeper-3
+    ports:
+      - "9093:9093"  # External access port
+    environment:
+      KAFKA_BROKER_ID: 2  # Unique identifier for this broker
+      # Connect to all ZooKeeper nodes with custom znode path
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181,zookeeper-2:2182,zookeeper-3:2183/kafka
+      # Define listeners for internal and external communication
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-2:29093,PLAINTEXT_HOST://localhost:9093
+      # Security protocol mapping for listeners
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT  # Listener for inter-broker communication
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1    # Replication factor for internal topics
+    networks:
+      - kafka-network
+
+  # Kafka UI for monitoring and management
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    ports:
+      - "8080:8080"  # Web UI port
+    environment:
+      # Configuration for single Kafka cluster
+      KAFKA_CLUSTERS_0_NAME: local-cluster
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-1:29092,kafka-2:29093
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper-1:2181,zookeeper-2:2182,zookeeper-3:2183
+    depends_on:
+      - kafka-1
+      - kafka-2
+    networks:
+      - kafka-network
+
+# Define the network for all services
+networks:
+  kafka-network:
+    driver: bridge  # Use bridge network for container communication 
