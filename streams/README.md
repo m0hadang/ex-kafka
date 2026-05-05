@@ -144,3 +144,16 @@
   - update semantic
 - GlobalKTable
   - all copied data
+
+### stateless vs stateful
+- stateless
+  - each event is processed independently of other events
+  - dosen't need to remember processed event
+- stateful
+  - need to remember processed event
+  - aggregate with other events
+  - windowing, event stream join
+- if topology use stateful stream operation then toplogy is stateful
+
+### projection
+- select only a subset of fields to work with
