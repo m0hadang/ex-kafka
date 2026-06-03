@@ -21,6 +21,17 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
+
+    //spring wrapper/integration layer for Kafka. It provides:
+    //- Spring-style configuration (@EnableKafkaStreams, @KafkaListener)
+    //- Dependency management (ensures kafka-streams and kafka-clients versions are compatible)
+    //- Auto-configuration for Kafka producers/consumers/streams
+    //- Integration with Spring's lifecycle management
+    implementation("org.springframework.kafka:spring-kafka")
+
+    // core Kafka Streams library from Apache Kafka for building stream processing applications. It provides APIs like KStream, KTable, Topology, etc.
+    implementation("org.apache.kafka:kafka-streams")
+
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
