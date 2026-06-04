@@ -155,5 +155,14 @@
   - windowing, event stream join
 - if topology use stateful stream operation then toplogy is stateful
 
-### projection
-- select only a subset of fields to work with
+### operation
+- consume
+  - deserialize
+    - serde is client side processing
+  - projection
+    - select only a subset of fields to work with
+- filtering
+- branching
+- mapping
+  - flatMap
+- merging

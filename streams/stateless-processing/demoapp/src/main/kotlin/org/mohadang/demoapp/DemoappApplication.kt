@@ -17,8 +17,8 @@ fun main(args: Array<String>) {
     val config = Properties()
     config[StreamsConfig.APPLICATION_ID_CONFIG] = "dev"
     config[StreamsConfig.BOOTSTRAP_SERVERS_CONFIG] = "localhost:9092"
-    config[StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG] = Serdes.String().javaClass
-    config[StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG] = Serdes.String().javaClass
+//    config[StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG] = Serdes.String().javaClass
+//    config[StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG] = Serdes.String().javaClass
 
     val streams = KafkaStreams(topology, config)
 

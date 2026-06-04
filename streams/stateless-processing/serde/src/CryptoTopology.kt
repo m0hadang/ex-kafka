@@ -5,18 +5,16 @@ import org.apache.kafka.streams.StreamsBuilder
 import org.apache.kafka.streams.Topology
 import org.apache.kafka.streams.kstream.Consumed
 import org.apache.kafka.streams.kstream.Printed
+import org.mohadang.demoapp.serde.Tweet
+import org.mohadang.demoapp.serde.TweetSerdes
 
 class CryptoTopology {
     companion object {
         fun basicBuild(): Topology {
             val builder = StreamsBuilder()
 
-            // create kstream instance
-            // - basically, kafka streams process data as byte array
-            // - when send or save data, kafka stream use zero-copy way
-            val kstream = builder.stream<ByteArray?, ByteArray?>("tweets")
-
-            kstream.print(Printed.toSysOut<ByteArray?, ByteArray?>().withLabel("tweets-stream"))
+            val kstream = builder.stream("tweets", Consumed.with(Serdes.String(), TweetSerdes()))
+            kstream.print(Printed.toSysOut<String?, Tweet?>().withLabel("tweets-stream"))
 
             return builder.build()
         }
