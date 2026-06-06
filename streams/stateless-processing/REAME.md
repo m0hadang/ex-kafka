@@ -1,5 +1,5 @@
 ### stateless operator
-- filter
+- filtering
 - add/remove field
 - rekeying
 - branching
