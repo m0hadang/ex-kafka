@@ -9,5 +9,5 @@ data class Tweet(
     @JsonProperty("Id") val id: Long,
     @JsonProperty("Lang") val lang: String,
     @JsonProperty("Retweet") val retweet: Boolean,
-    @JsonProperty("Text") val text: String,
+    @JsonProperty("Text") var text: String,
 )

@@ -5,6 +5,6 @@
 - branching
 - merging
   - a, b -> c
-- flatMap
-  - 1 -> N
+- mapping
+  - flatMap : 1 -> N
 - enrich
