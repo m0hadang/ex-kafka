@@ -1,0 +1,3 @@
+### filtering operation
+- filter
+- filterNot
