@@ -28,6 +28,10 @@
   - low latency
   - ex) kafka streams
 
+### stateless vs stateful
+- stateless : immutable facts
+- stateful : data join, aggregate
+
 ### DAG(Directed Acyclic Graph)
 - stream logic is built as DAG(none cycle graph)
 
