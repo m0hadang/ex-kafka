@@ -131,6 +131,7 @@
 - stateless
   - each event is processed independently of other events
   - dosen't need to remember processed event
+  - immutable facts
 - stateful
   - need to remember processed event
   - aggregate with other events
@@ -148,3 +149,24 @@
 - mapping
   - flatMap
 - merging
+
+
+# fact vs behavior
+- fact-driven
+  - stateless application
+  - each event is independent, atomic, immutable
+- behavior
+  - By accumulating facts, behavior can be detected.
+  - in real world, event is not isolated. all thing is connected.
+  - collect fact(event) and remember, then can understand meaning
+
+### advantage of stateful processing
+- analysis relation of events and processing complect event stream
+  - aggregate
+  - join and enrich data
+- additional data abstraction
+  - point-in-time
+    - snapshot table
+    - play event streams and save key value store
+- Streaming Relational Processing
+- event first thinking
