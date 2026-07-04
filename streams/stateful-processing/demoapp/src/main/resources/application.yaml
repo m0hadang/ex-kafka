@@ -1,3 +1,10 @@
 spring:
   application:
     name: demoapp
+  kafka:
+    bootstrap-servers: localhost:9092
+    streams:
+      application-id: dev-3
+      properties:
+        default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+        default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde

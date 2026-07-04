@@ -27,6 +27,9 @@ dependencies {
     implementation("org.apache.kafka:kafka-streams")
     implementation("org.springframework.boot:spring-boot-starter-kafka")
 
+    // json ObjectMapper
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")

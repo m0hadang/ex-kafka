@@ -32,6 +32,7 @@ dependencies {
     // core Kafka Streams library from Apache Kafka for building stream processing applications. It provides APIs like KStream, KTable, Topology, etc.
     implementation("org.apache.kafka:kafka-streams")
 
+    // json ObjectMapper
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
