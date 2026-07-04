@@ -18,3 +18,18 @@ podman compose down -v
 ### Kafka UI
 
 Access Kafka UI at: http://localhost:8080
+
+### structure
+
+```txt
+- source-events --|
+                 [j]----
+- players       --|    |
+                      [*]--[G]--[A]--> store <-- query
+                       |
+- products      -------
+
+* : join
+G : group
+A : aggregate 
+```
