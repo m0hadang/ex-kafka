@@ -1,5 +1,5 @@
 
-### run containers
+### UP
 
 ```sh
 podman compose up -d
@@ -9,7 +9,7 @@ podman compose up -d
 - Kafka UI (port 8080)
 - Schema Registry (port 8081)
 
-### delete containers
+### DOWN
 
 ```sh
 podman compose down -v
@@ -33,3 +33,7 @@ Access Kafka UI at: http://localhost:8080
 G : group
 A : aggregate 
 ```
+
+### ref
+- https://www.conduktor.io/glossary/state-stores-in-kafka-streams
+- 

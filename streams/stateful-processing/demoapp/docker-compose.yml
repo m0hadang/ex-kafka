@@ -32,11 +32,7 @@ services:
     working_dir: /data
     volumes:
       - ./src/main/resources:/data
-    command: >
-      bash -c "
-        sleep 10 &&
-        cat score-event-test.json | kafka-console-producer --bootstrap-server kafka:29092 --topic score-events
-      "
+    command: ["bash", "./produce-score-events.sh"]
     networks:
       - kafka-network
 
@@ -44,7 +40,7 @@ services:
     image: confluentinc/cp-enterprise-kafka:7.5.0
     depends_on:
       - kafka
-    hostname: kafka-create-topics
+    hostname: kafka-create-topics1
     command: ["bash", "./create-topics.sh"]
     working_dir: /scripts
     volumes:
