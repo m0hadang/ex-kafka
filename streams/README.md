@@ -170,3 +170,6 @@
     - play event streams and save key value store
 - Streaming Relational Processing
 - event first thinking
+
+### ref
+- https://kafka.apache.org/41/streams/developer-guide/dsl-api/

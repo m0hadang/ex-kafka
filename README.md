@@ -9,3 +9,6 @@
 ### recommended pattern for increasing partitions
 1. create new source topic with the desired number of partitions
 2. Migrate all existing workloads to a new source topic
+
+### TODO
+- check partition, task, stream stread in app
