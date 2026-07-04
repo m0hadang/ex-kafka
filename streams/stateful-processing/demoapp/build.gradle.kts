@@ -25,6 +25,7 @@ dependencies {
     // kafka
     implementation("org.springframework.kafka:spring-kafka")
     implementation("org.apache.kafka:kafka-streams")
+    implementation("org.springframework.boot:spring-boot-starter-kafka")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
