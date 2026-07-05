@@ -1,4 +1,13 @@
 
+### TODO
+
+- https://www.conduktor.io/glossary/state-stores-in-kafka-streams#stream-joins
+  - Stream Joins and Enrichment Patterns
+    - https://www.conduktor.io/glossary/stream-joins-and-enrichment-patterns
+
+
+
+
 ### UP
 
 ```sh

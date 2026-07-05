@@ -171,5 +171,17 @@
 - Streaming Relational Processing
 - event first thinking
 
+### KStream, KTable fundamental abstractions
+- KStream (Event Stream)
+  - An unbounded sequence of events
+  - each record is a new, independent event
+  - Multiple records with the same key represent separate occurrences
+  - e.g., clickstream events, transactions, sensor readings, ...
+- KTable (Changelog Stream)
+  - Represents the latest state for each key, like a DB,
+  - New records with the same key update the previous value
+  - Only the current state matters
+  - e.g., user profiles, product catalog, account balances.
+
 ### ref
 - https://kafka.apache.org/41/streams/developer-guide/dsl-api/
